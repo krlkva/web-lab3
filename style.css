@@ -23,8 +23,10 @@ body {
     padding: 28px 24px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.05);
     border: 1px solid #e2e9f0;
+    position: relative;
 }
 
+/* ===== ШАПКА ===== */
 .header {
     display: flex;
     justify-content: space-between;
@@ -36,6 +38,7 @@ body {
     font-size: 26px;
     font-weight: 600;
     color: #1a2b3c;
+    letter-spacing: -0.3px;
 }
 
 .subtitle {
@@ -44,6 +47,17 @@ body {
     margin-top: 4px;
 }
 
+.yipee {
+    background: #eef3f8;
+    padding: 10px 18px;
+    border-radius: 40px;
+    font-weight: 600;
+    color: #2e4c6b;
+    font-size: 20px;
+    border: 1px solid #d3dee8;
+}
+
+/* ===== СЧЁТЧИКИ ===== */
 .scores {
     display: flex;
     gap: 20px;
@@ -65,21 +79,17 @@ body {
     font-size: 14px;
     color: #5d768a;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .scores__value {
     font-size: 32px;
     font-weight: 700;
     color: #1a2f40;
+    line-height: 1.2;
 }
 
-.footer {
-    margin-top: 20px;
-    font-size: 13px;
-    color: #819aad;
-    text-align: center;
-}
-
+/* ===== ИГРОВОЕ ПОЛЕ ===== */
 .gameboard {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -89,6 +99,7 @@ body {
     border-radius: 20px;
     margin-bottom: 24px;
     aspect-ratio: 1 / 1;
+    position: relative;
 }
 
 .gameboard__tile-wrapper {
@@ -108,52 +119,47 @@ body {
     font-size: 2.25rem;
     font-weight: 700;
     color: #1e3b4f;
-    background: #e8edf2;
     box-shadow: inset 0 1px 4px rgba(255,255,255,0.8), 0 3px 6px rgba(0,0,0,0.05);
+    transition: all 0.1s ease;
+    position: relative;
+    background: #e8edf2;
 }
 
+/* Цвета для плиток */
 .gameboard__tile[data-value="2"] { background: #f9fbfd; color: #2c4053; }
 .gameboard__tile[data-value="4"] { background: #f2eee9; color: #2c4053; }
 .gameboard__tile[data-value="8"] { background: #eadbcb; color: #2c4053; }
 .gameboard__tile[data-value="16"] { background: #dec9b3; color: #1e2e3d; }
 .gameboard__tile[data-value="32"] { background: #cfb39b; color: white; }
 .gameboard__tile[data-value="64"] { background: #be9b81; color: white; }
+.gameboard__tile[data-value="128"] { background: #ad856a; color: white; font-size: 2rem; }
+.gameboard__tile[data-value="256"] { background: #9b7257; color: white; font-size: 2rem; }
+.gameboard__tile[data-value="512"] { background: #8a6047; color: white; font-size: 2rem; }
+.gameboard__tile[data-value="1024"] { background: #7a4f39; color: white; font-size: 1.7rem; }
+.gameboard__tile[data-value="2048"] { background: #6b402e; color: white; font-size: 1.7rem; }
 
-/* Стили для кнопок */
+.active-tile-combined {
+    z-index: 10;
+}
+
+/* ===== НАСТРОЙКИ ===== */
 .settings {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin: 20px 0;
-    padding: 12px 0;
+    gap: 20px 30px;
+    margin: 16px 0 20px;
+    padding: 8px 0;
     border-top: 1px solid #e4ecf3;
     border-bottom: 1px solid #e4ecf3;
-    justify-content: center;
 }
 
-.settings button {
-    background: #f0f5fa;
-    border: 1px solid #d0ddee;
-    border-radius: 30px;
-    padding: 10px 20px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #1f405e;
-    cursor: pointer;
-    min-width: 110px;
+.speed-text {
+    font-weight: 600;
+    color: #2b4a62;
+    margin-left: 4px;
 }
 
-.settings button:hover {
-    background: #e3ecf5;
-    border-color: #a0bcdb;
-}
-
-.settings button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
+/* ===== МОБИЛЬНЫЕ КНОПКИ ===== */
 .controls {
     display: none;
     flex-direction: column;
@@ -175,8 +181,17 @@ body {
     background: white;
     font-size: 28px;
     color: #2e506a;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.03);
     border: 1px solid #e0eaf3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: 0.1s;
+}
+
+.controls__arrow:active {
+    background: #eaf1f8;
 }
 
 @media (max-width: 640px) {
@@ -185,7 +200,236 @@ body {
     }
 }
 
-/* Добавляем анимации */
+/* ===== МОДАЛЬНЫЕ ОКНА ===== */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(30, 40, 50, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: 0.2s;
+}
+
+.popup.hidden {
+    display: none;
+}
+
+.popup__content {
+    background: white;
+    border-radius: 32px;
+    padding: 32px;
+    max-width: 440px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid #dae3ec;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #819aad;
+    padding: 8px;
+}
+
+.close-btn:hover {
+    color: #1a2f40;
+}
+
+/* ===== ОКНО ЗАВЕРШЕНИЯ ===== */
+.victory h2 {
+    font-size: 28px;
+    margin-bottom: 16px;
+    color: #1c3344;
+    font-weight: 500;
+}
+
+.victory h3 {
+    font-size: 20px;
+    margin-bottom: 24px;
+    color: #476c84;
+    font-weight: 400;
+    border-bottom: 1px solid #e0eaf3;
+    padding-bottom: 16px;
+}
+
+.victory__title-record {
+    background: #e6f0f9;
+    padding: 14px 18px;
+    border-radius: 40px;
+    margin-bottom: 20px;
+    color: #1f6d4a;
+    font-weight: 500;
+    border: 1px solid #c8dbeb;
+    display: none;
+}
+
+.victory__title-save {
+    color: #3d637b;
+    margin-bottom: 20px;
+    font-size: 16px;
+    display: none;
+}
+
+.victory__title-best {
+    color: #b3442c;
+    font-weight: 500;
+    margin: 12px 0;
+    display: none;
+}
+
+.victory__gif {
+    font-size: 48px;
+    margin: 10px 0;
+    text-align: center;
+    display: none;
+}
+
+.victory__title-confirm {
+    color: #1f6d4a;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    padding: 20px;
+    display: none;
+}
+
+.victory form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0;
+    background: #f5f9ff;
+    padding: 8px 12px 8px 20px;
+    border-radius: 50px;
+    border: 1px solid #d5e2f0;
+}
+
+.victory input {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.victory input:focus {
+    outline: none;
+}
+
+.victory input::placeholder {
+    color: #8da3b8;
+}
+
+.victory .save-btn {
+    background: #eef3f8;
+    border: 1px solid #b9cfec;
+    padding: 10px 28px;
+    border-radius: 40px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1c3f5c;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.victory .save-btn:hover {
+    background: #dfe9f2;
+    border-color: #8fb0d1;
+}
+
+.victory__reset {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 2px dashed #c7d9e8;
+    font-size: 16px;
+}
+
+/* ===== ТАБЛИЦА ЛИДЕРОВ ===== */
+.leaderboard h2 {
+    margin-bottom: 24px;
+    color: #1c3344;
+}
+
+.leaderboard__list {
+    list-style: none;
+    margin: 24px 0;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.leaderboard__list li {
+    padding: 12px 16px;
+    border-bottom: 1px solid #eef3f8;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+}
+
+.leaderboard__list li:first-child {
+    background: #f1f7fd;
+    border-radius: 16px 16px 0 0;
+    font-weight: 600;
+}
+
+/* ===== УПРАВЛЕНИЕ СКОРОСТЬЮ ===== */
+.speed-control h3 {
+    margin-bottom: 24px;
+    color: #1c3344;
+}
+
+.speed-control__slider {
+    margin: 30px 0;
+}
+
+.speed-control__slider input {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.speed-control__markers {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #6b889e;
+}
+
+/* ===== ПОДВАЛ ===== */
+.footer {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #819aad;
+    text-align: center;
+}
+
+/* ===== УТИЛИТЫ ===== */
+.hidden {
+    display: none !important;
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.stop-scrolling {
+    overflow: hidden;
+}
+
+/* ===== АНИМАЦИИ ===== */
 @keyframes appear {
     0% { transform: scale(0); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
@@ -193,18 +437,96 @@ body {
 
 @keyframes merge {
     0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
+    50% { transform: scale(1.2); filter: brightness(1.2); }
     100% { transform: scale(1); }
 }
 
+/* ===== ЛЕТАЮЩИЕ ПЛИТКИ ===== */
 .flying-tile {
-    position: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 16px;
     font-weight: 700;
+    font-size: 2.25rem;
     box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     z-index: 1000;
+    transition: all 0.15s ease-in-out;
+    background: inherit;
+    color: inherit;
+}
+
+/* Цвета для летающих плиток */
+.flying-tile[data-value="2"] { background: #f9fbfd; color: #2c4053; }
+.flying-tile[data-value="4"] { background: #f2eee9; color: #2c4053; }
+.flying-tile[data-value="8"] { background: #eadbcb; color: #2c4053; }
+.flying-tile[data-value="16"] { background: #dec9b3; color: #1e2e3d; }
+.flying-tile[data-value="32"] { background: #cfb39b; color: white; }
+.flying-tile[data-value="64"] { background: #be9b81; color: white; }
+.flying-tile[data-value="128"] { background: #ad856a; color: white; font-size: 2rem; }
+.flying-tile[data-value="256"] { background: #9b7257; color: white; font-size: 2rem; }
+.flying-tile[data-value="512"] { background: #8a6047; color: white; font-size: 2rem; }
+.flying-tile[data-value="1024"] { background: #7a4f39; color: white; font-size: 1.7rem; }
+.flying-tile[data-value="2048"] { background: #6b402e; color: white; font-size: 1.7rem; }
+
+/* ===== КНОПКИ В ПАНЕЛИ УПРАВЛЕНИЯ ===== */
+.settings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+    padding: 12px 0;
+    border-top: 1px solid #e4ecf3;
+    border-bottom: 1px solid #e4ecf3;
+    justify-content: center;
+}
+
+.settings button {
+    background: #f0f5fa;
+    border: 1px solid #d0ddee;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1f405e;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    min-width: 110px;
+    letter-spacing: 0.3px;
+}
+
+.settings button:hover {
+    background: #e3ecf5;
+    border-color: #a0bcdb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.settings button:active {
+    transform: translateY(0);
+    background: #d1e0ef;
+}
+
+.settings button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
     pointer-events: none;
+    transform: none;
+    box-shadow: none;
+    border-color: #d0ddee;
+}
+
+/* Специальный стиль для кнопки скорости */
+.settings .speed-control-btn {
+    background: #2b4f6e;
+    border-color: #1d3a52;
+    color: white;
+    font-weight: 600;
+    min-width: 70px;
+}
+
+.settings .speed-control-btn:hover {
+    background: #356b91;
+    border-color: #2b4f6e;
 }
