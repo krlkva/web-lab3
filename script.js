@@ -116,6 +116,96 @@ function updateBoardMove(direction) {
     updateBoardVisual();
 }
 
+// ===== АНИМАЦИЯ ДВИЖЕНИЯ =====
+async function animateMovement(moves) {
+    if (moves.length === 0) return;
+    
+    return new Promise(resolve => {
+        let flyingTiles = [];
+        
+        for (let move of moves) {
+            let fromRow = move[0][0];
+            let fromCol = move[0][1];
+            let toRow = move[1][0];
+            let toCol = move[1][1];
+            
+            let fromIndex = fromRow * 4 + fromCol;
+            let toIndex = toRow * 4 + toCol;
+            
+            let originalTile = visualTiles[fromIndex];
+            let value = gameBoard[fromRow][fromCol];
+            
+            if (value === 0) continue;
+            
+            let flyingTile = document.createElement('div');
+            flyingTile.className = 'flying-tile';
+            flyingTile.textContent = value;
+            flyingTile.setAttribute('data-value', value);
+            
+            let fromTileRect = originalTile.getBoundingClientRect();
+            let toTileRect = visualTiles[toIndex].getBoundingClientRect();
+            
+            flyingTile.style.position = 'fixed';
+            flyingTile.style.width = fromTileRect.width + 'px';
+            flyingTile.style.height = fromTileRect.height + 'px';
+            flyingTile.style.left = fromTileRect.left + 'px';
+            flyingTile.style.top = fromTileRect.top + 'px';
+            flyingTile.style.zIndex = '1000';
+            flyingTile.style.transition = `all ${animationSpeed}ms ease-in-out`;
+            flyingTile.style.pointerEvents = 'none';
+            flyingTile.style.display = 'flex';
+            flyingTile.style.alignItems = 'center';
+            flyingTile.style.justifyContent = 'center';
+            flyingTile.style.fontSize = window.getComputedStyle(originalTile).fontSize;
+            flyingTile.style.fontWeight = 'bold';
+            
+            document.body.appendChild(flyingTile);
+            
+            flyingTiles.push({
+                element: flyingTile,
+                toRect: toTileRect
+            });
+        }
+        
+        requestAnimationFrame(() => {
+            flyingTiles.forEach(tile => {
+                tile.element.style.left = tile.toRect.left + 'px';
+                tile.element.style.top = tile.toRect.top + 'px';
+            });
+        });
+        
+        setTimeout(() => {
+            flyingTiles.forEach(tile => tile.element.remove());
+            resolve();
+        }, animationSpeed);
+    });
+}
+
+function animateTile(type, tile) {
+    switch (type) {
+        case 'appeared':
+            tile.animate(
+                [
+                    { transform: 'scale(0)', opacity: 0 },
+                    { transform: 'scale(1)', opacity: 1 }
+                ],
+                { duration: animationSpeed, iterations: 1 }
+            );
+            break;
+            
+        case 'combined':
+            tile.animate(
+                [
+                    { transform: 'scale(1)' },
+                    { transform: 'scale(1.2)' },
+                    { transform: 'scale(1)' }
+                ],
+                { duration: animationSpeed, iterations: 1 }
+            );
+            break;
+    }
+}
+
 function undoMove() {
     if (prevGameBoard.length === 0) return;
     
