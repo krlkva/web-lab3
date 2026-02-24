@@ -83,6 +83,51 @@ function updateBoardVisual() {
     }
 }
 
+// Добавляем переменные для отмены
+let prevGameBoard = [];
+let prevGameScore = 0;
+const undo = document.getElementById('undo-move');
+
+function updateBoardMove(direction) {
+    if (isBoardPaused || gameIsFinished) return;
+    
+    prevGameBoard = JSON.parse(JSON.stringify(gameBoard));
+    prevGameScore = gameScore;
+    
+    let movedTiles = collectMovedTiles(direction);
+    if (movedTiles.length === 0) return;
+    
+    // Обновляем поле
+    for (let tile of movedTiles) {
+        let oldTile = gameBoard[tile[0][0]][tile[0][1]];
+        let newTile = gameBoard[tile[1][0]][tile[1][1]];
+        
+        if (oldTile != newTile) {
+            gameBoard[tile[0][0]][tile[0][1]] = 0;
+            gameBoard[tile[1][0]][tile[1][1]] = oldTile;
+        } else {
+            gameBoard[tile[0][0]][tile[0][1]] = 0;
+            gameBoard[tile[1][0]][tile[1][1]] = oldTile * 2;
+        }
+    }
+    
+    updateBoardVisual();
+    addNewRandomTile();
+    updateBoardVisual();
+}
+
+function undoMove() {
+    if (prevGameBoard.length === 0) return;
+    
+    gameBoard = JSON.parse(JSON.stringify(prevGameBoard));
+    gameScore = prevGameScore;
+    updateBoardVisual();
+    elemScore.textContent = gameScore;
+    prevGameBoard = [];
+}
+
+undo.addEventListener('click', undoMove);
+
 function collectMovedTiles(direction) {
     direction = direction.toLowerCase();
     switch (direction) {
