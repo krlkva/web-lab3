@@ -2,19 +2,21 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>KRLKVA 2048 game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="main-container">
+        <!-- Шапка -->
         <div class="header">
             <div class="title-section">
                 <h1>KRLKVA 2048 game</h1>
                 <div class="subtitle">Web programming lab 3</div>
             </div>
         </div>
-        
+
+        <!-- Счётчики -->
         <div class="scores">
             <div class="scores__item">
                 <span class="scores__label">Score</span>
@@ -25,49 +27,90 @@
                 <span class="scores__value" id="best-score">0</span>
             </div>
         </div>
-        
+
+        <!-- Игровое поле -->
         <div class="gameboard"></div>
-    </div>
 
-        <!-- Добавляем панель управления в HTML -->
-    <div class="settings">
-        <button class="reset-btn" id="new-game">Начать заново</button>
-        <button class="undo-btn" id="undo-move" disabled>Отмена хода</button>
-        <button class="leaderboard-btn" id="show-leaders">Лидеры</button>
-        <button class="speed-control-btn" id="speed-control">x1</button>
-    </div>
+        <!-- Панель управления (теперь это кнопки, а не чекбоксы) -->
+        <div class="settings">
+            <button class="reset-btn" id="new-game">Начать заново</button>
+            <button class="undo-btn" id="undo-move" disabled>Отмена хода</button>
+            <button class="leaderboard-btn" id="show-leaders">Лидеры</button>
+            <button class="speed-control-btn" id="speed-control">x1</button>
+        </div>
 
-    <!-- Мобильные кнопки -->
-    <div class="controls">
-        <div class="controls__row">
-            <button class="controls__arrow" data-direction="up">▲</button>
+        <!-- Мобильные кнопки управления (появляются только на малых экранах) -->
+        <div class="controls">
+            <div class="controls__row">
+                <button class="controls__arrow" data-direction="up">▲</button>
+            </div>
+            <div class="controls__row">
+                <button class="controls__arrow" data-direction="left">◀</button>
+                <button class="controls__arrow" data-direction="down">▼</button>
+                <button class="controls__arrow" data-direction="right">▶</button>
+            </div>
         </div>
-        <div class="controls__row">
-            <button class="controls__arrow" data-direction="left">◀</button>
-            <button class="controls__arrow" data-direction="down">▼</button>
-            <button class="controls__arrow" data-direction="right">▶</button>
+
+        <!-- Модальное окно завершения игры -->
+        <div class="victory-wrapper popup hidden">
+            <div class="victory popup__content">
+                <h2>The game is over!</h2>
+                <h3 id="victory-score">You scored 0 points.</h3>
+                
+                <div class="victory__title-record" id="record-message">This is a new record!</div>
+                <div class="victory__title-save" id="save-message">Enter your name to save it to the leaderboard!</div>
+                <div class="victory__title-best" id="best-message"></div>
+                
+                <form id="victory-form">
+                    <input type="text" id="player-name" placeholder="user" value="user" maxlength="20">
+                    <button type="submit" class="save-btn">Save</button>
+                </form>
+                
+                <div class="victory__title-confirm" id="saved-confirm">Congratulations!</div>
+                
+                <button class="restart-btn" id="restart-game">Start a new game</button>
+                
+                <button class="close-btn">✕</button>
+            </div>
         </div>
-    </div>
+
+        <!-- Модальное окно лидеров -->
+        <div class="leaderboard-wrapper popup hidden">
+            <div class="leaderboard popup__content">
+                <h2>Top-10 leaderboard</h2>
+                <ol class="leaderboard__list" id="leaderboard-list"></ol>
+                <button class="close-btn" id="close-leaderboard">Close</button>
+            </div>
+        </div>
 
         <!-- Модальное окно скорости -->
-    <div class="speed-wrapper popup hidden">
-        <div class="speed-control popup__content">
-            <h3>Animation speed</h3>
-            <div class="speed-control__slider">
-                <input type="range" min="0" max="7" value="3" step="1" id="speed-slider">
-                <div class="speed-control__markers">
-                    <span>0.25x</span> <span>0.5x</span> <span>0.75x</span> <span>1x</span>
-                    <span>2x</span> <span>3x</span> <span>5x</span> <span>10x</span>
+        <div class="speed-wrapper popup hidden">
+            <div class="speed-control popup__content">
+                <h3>Animation speed</h3>
+                <div class="speed-control__slider">
+                    <input type="range" min="0" max="7" value="3" step="1" id="speed-slider">
+                    <div class="speed-control__markers">
+                        <span>0.25x</span>
+                        <span>0.5x</span>
+                        <span>0.75x</span>
+                        <span>1x</span>
+                        <span>2x</span>
+                        <span>3x</span>
+                        <span>5x</span>
+                        <span>10x</span>
+                    </div>
                 </div>
+                <button class="close-btn" id="close-speed">Close</button>
             </div>
-            <button class="close-btn" id="close-speed">Close</button>
         </div>
+
     </div>
-    
+
+    <!-- Подпись -->
     <div class="footer">
         Королькова Елизавета | Web Programming Lab 3
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
