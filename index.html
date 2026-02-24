@@ -28,6 +28,26 @@
         
         <div class="gameboard"></div>
     </div>
+
+        <!-- Добавляем панель управления в HTML -->
+    <div class="settings">
+        <button class="reset-btn" id="new-game">Начать заново</button>
+        <button class="undo-btn" id="undo-move" disabled>Отмена хода</button>
+        <button class="leaderboard-btn" id="show-leaders">Лидеры</button>
+        <button class="speed-control-btn" id="speed-control">x1</button>
+    </div>
+
+    <!-- Мобильные кнопки -->
+    <div class="controls">
+        <div class="controls__row">
+            <button class="controls__arrow" data-direction="up">▲</button>
+        </div>
+        <div class="controls__row">
+            <button class="controls__arrow" data-direction="left">◀</button>
+            <button class="controls__arrow" data-direction="down">▼</button>
+            <button class="controls__arrow" data-direction="right">▶</button>
+        </div>
+    </div>
     
     <div class="footer">
         Королькова Елизавета | Web Programming Lab 3
