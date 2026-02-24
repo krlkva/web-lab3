@@ -118,3 +118,69 @@ body {
 .gameboard__tile[data-value="16"] { background: #dec9b3; color: #1e2e3d; }
 .gameboard__tile[data-value="32"] { background: #cfb39b; color: white; }
 .gameboard__tile[data-value="64"] { background: #be9b81; color: white; }
+
+/* Стили для кнопок */
+.settings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 20px 0;
+    padding: 12px 0;
+    border-top: 1px solid #e4ecf3;
+    border-bottom: 1px solid #e4ecf3;
+    justify-content: center;
+}
+
+.settings button {
+    background: #f0f5fa;
+    border: 1px solid #d0ddee;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1f405e;
+    cursor: pointer;
+    min-width: 110px;
+}
+
+.settings button:hover {
+    background: #e3ecf5;
+    border-color: #a0bcdb;
+}
+
+.settings button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.controls {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0 16px;
+}
+
+.controls__row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.controls__arrow {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: white;
+    font-size: 28px;
+    color: #2e506a;
+    border: 1px solid #e0eaf3;
+    cursor: pointer;
+}
+
+@media (max-width: 640px) {
+    .controls {
+        display: flex;
+    }
+}
