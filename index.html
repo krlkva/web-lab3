@@ -48,6 +48,21 @@
             <button class="controls__arrow" data-direction="right">▶</button>
         </div>
     </div>
+
+        <!-- Модальное окно скорости -->
+    <div class="speed-wrapper popup hidden">
+        <div class="speed-control popup__content">
+            <h3>Animation speed</h3>
+            <div class="speed-control__slider">
+                <input type="range" min="0" max="7" value="3" step="1" id="speed-slider">
+                <div class="speed-control__markers">
+                    <span>0.25x</span> <span>0.5x</span> <span>0.75x</span> <span>1x</span>
+                    <span>2x</span> <span>3x</span> <span>5x</span> <span>10x</span>
+                </div>
+            </div>
+            <button class="close-btn" id="close-speed">Close</button>
+        </div>
+    </div>
     
     <div class="footer">
         Королькова Елизавета | Web Programming Lab 3
