@@ -11,6 +11,16 @@ const scores = mainContainer.querySelector('.scores');
 const [elemScore, elemBest] = scores.querySelectorAll('.scores__value');
 const board = mainContainer.querySelector('.gameboard');
 
+const markers = [0.25, 0.5, 0.75, 1, 2, 3, 5, 10];
+let baseSpeed = 100;
+const speedControlInput = document.getElementById('speed-slider');
+
+speedControlInput.addEventListener('change', (event) => {
+    animationSpeed = baseSpeed * (1 / markers[event.target.value]);
+    localStorage.setItem('game-speed', animationSpeed);
+    speedControlBtn.textContent = 'x' + markers[event.target.value];
+});
+
 function createGameBoard() {
     board.innerHTML = '';
     
